@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>House Price Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="grid-backdrop" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">⌂</span>
+      <span class="brand-text">SURVEY&nbsp;<strong>&amp;</strong>&nbsp;VALUE</span>
+    </div>
+    <span class="brand-sub">Machine Learning Price Estimator</span>
+  </div>
+</header>
+
+<main class="layout">
+
+  <section class="intro">
+    <p class="eyebrow">PROPERTY VALUATION MODEL</p>
+    <h1>What's it<br />actually worth?</h1>
+    <p class="lede">
+      Enter the property details below to generate an estimated house price
+      based on historical housing data.
+    </p>
+  </section>
+
+  <section class="panel form-panel" aria-labelledby="form-heading">
+    <div class="panel-ticks" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <h2 id="form-heading" class="panel-title">Specification Sheet</h2>
+
+    <form id="prediction-form" novalidate>
+
+      <p class="section-label">Location &amp; Type</p>
+      <div class="field-row two-col">
+        <div class="field">
+          <label for="city">City</label>
+          <select id="city" name="city" required>
+            <option value="" disabled selected>Select a city</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="property_type">Property Type</label>
+          <select id="property_type" name="property_type" required>
+            <option value="" disabled selected>Select a property type</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="section-label">Core Specification</p>
+      <div class="field-row three-col">
+        <div class="field">
+          <label for="sqft_living">Living Area (sq.ft)</label>
+          <input type="number" id="sqft_living" name="sqft_living" min="100" max="30000" placeholder="1400" required />
+        </div>
+        <div class="field">
+          <label for="bedrooms">Bedrooms</label>
+          <input type="number" id="bedrooms" name="bedrooms" min="1" max="20" placeholder="3" required />
+        </div>
+        <div class="field">
+          <label for="bathrooms">Bathrooms</label>
+          <input type="number" id="bathrooms" name="bathrooms" min="1" max="20" placeholder="2" required />
+        </div>
+      </div>
+
+      <div class="field-row two-col">
+        <div class="field">
+          <label for="sqft_lot">Lot Size (sq.ft)</label>
+          <input type="number" id="sqft_lot" name="sqft_lot" min="0" max="100000" placeholder="2000" required />
+        </div>
+        <div class="field">
+          <label for="floors">Floors</label>
+          <input type="number" id="floors" name="floors" min="1" max="100" placeholder="10" required />
+        </div>
+      </div>
+
+      <p class="section-label">Age &amp; Condition</p>
+      <div class="field-row two-col">
+        <div class="field">
+          <label for="age_of_property">Age of Property (years)</label>
+          <input type="number" id="age_of_property" name="age_of_property" min="0" max="100" placeholder="5" required />
+        </div>
+        <div class="field">
+          <label for="furnishing">Furnishing Status</label>
+          <select id="furnishing" name="furnishing" required>
+            <option value="" disabled selected>Select furnishing status</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field checkbox-field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="is_renovated" name="is_renovated" />
+          <span>Property has been renovated</span>
+        </label>
+      </div>
+
+      <p class="section-label">Amenities</p>
+      <div class="field-row three-col">
+        <div class="field">
+          <label for="parking">Parking Spaces</label>
+          <input type="number" id="parking" name="parking" min="0" max="10" placeholder="1" required />
+        </div>
+        <div class="field">
+          <label for="balcony">Balconies</label>
+          <input type="number" id="balcony" name="balcony" min="0" max="10" placeholder="2" required />
+        </div>
+        <div class="field">
+          <label for="facing">Facing</label>
+          <select id="facing" name="facing" required>
+            <option value="" disabled selected>Select facing direction</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row two-col">
+        <div class="field checkbox-field">
+          <label class="checkbox-label">
+            <input type="checkbox" id="lift" name="lift" />
+            <span>Lift available</span>
+          </label>
+        </div>
+        <div class="field checkbox-field">
+          <label class="checkbox-label">
+            <input type="checkbox" id="garden" name="garden" />
+            <span>Garden available</span>
+          </label>
+        </div>
+      </div>
+
+      <p class="section-label">Proximity</p>
+      <div class="field-row two-col">
+        <div class="field">
+          <label for="nearby_schools">Nearby Schools</label>
+          <input type="number" id="nearby_schools" name="nearby_schools" min="0" max="50" placeholder="3" required />
+        </div>
+        <div class="field">
+          <label for="nearby_hospitals">Nearby Hospitals</label>
+          <input type="number" id="nearby_hospitals" name="nearby_hospitals" min="0" max="50" placeholder="2" required />
+        </div>
+      </div>
+
+      <button type="submit" id="submit-btn" class="submit-btn">
+        <span class="btn-label">Generate Estimate</span>
+        <span class="btn-arrow" aria-hidden="true">→</span>
+      </button>
+
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <section class="panel result-panel" aria-live="polite">
+    <div class="panel-ticks" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <div id="result-empty" class="result-empty">
+      <p class="stamp-placeholder">NO ESTIMATE YET</p>
+      <p class="empty-copy">Fill in the specification sheet and generate an estimate to see it here.</p>
+    </div>
+
+    <div id="result-loading" class="result-loading" hidden>
+      <div class="loading-bar"><div class="loading-fill"></div></div>
+      <p>Running valuation model…</p>
+    </div>
+
+    <div id="result-content" class="result-content" hidden>
+      <p class="result-label">ESTIMATED VALUE</p>
+      <p class="result-price">
+        ₹<span id="result-price-lakhs">0</span> <span class="unit">Lakhs</span>
+      </p>
+      <p class="result-rupees">₹<span id="result-price-rupees">0</span></p>
+
+      <div class="dimension-row">
+        <span class="dim-label">CONFIDENCE RANGE</span>
+        <span class="dim-value">
+          ₹<span id="range-low">0</span>L — ₹<span id="range-high">0</span>L
+        </span>
+      </div>
+
+      <table class="spec-table">
+        <tbody>
+          <tr><td>City</td><td id="spec-city">—</td></tr>
+          <tr><td>Property Type</td><td id="spec-property-type">—</td></tr>
+          <tr><td>Living Area</td><td id="spec-sqft">—</td></tr>
+          <tr><td>Configuration</td><td id="spec-bhk">—</td></tr>
+          <tr><td>Floors</td><td id="spec-floors">—</td></tr>
+          <tr><td>Age</td><td id="spec-age">—</td></tr>
+          <tr><td>Furnishing</td><td id="spec-furnishing">—</td></tr>
+          <tr><td>Model Used</td><td id="spec-model">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/script.js"></script>
+</body>
+</html>
